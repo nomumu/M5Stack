@@ -1,5 +1,8 @@
+set(IDF_PATH_CMAKE $ENV{IDF_PATH})
+string(REPLACE "\\" "/" IDF_PATH_CMAKE "${IDF_PATH_CMAKE}")
+
 set(COMPONENT_SRCDIRS "src" "src/utility" "src/Fonts")
-set(COMPONENT_ADD_INCLUDEDIRS "src" "$ENV{IDF_PATH}/components/bt/bluedroid/api/include/api")
+set(COMPONENT_ADD_INCLUDEDIRS "src" "$ENV{IDF_PATH}/components/bt/host/bluedroid/api/include/api")
 list(APPEND COMPONENT_REQUIRES "arduino")
 
 
@@ -16,5 +19,6 @@ if(CONFIG_M5STACK_FIRE)
     list(APPEND DEFINITIONS "M5STACK_FIRE")
 endif(CONFIG_M5STACK_FIRE)
 
-target_compile_definitions(${COMPONENT_NAME} PUBLIC ${DEFINITIONS})
+target_compile_definitions(${COMPONENT_TARGET} PUBLIC ${DEFINITIONS})
+idf_build_set_property(COMPILE_OPTIONS "-Wno-error=unused-const-variable" APPEND)
 
